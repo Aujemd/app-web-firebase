@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MainTitle } from "./Components/MainTitle";
 import {
   getLastTemperatures,
@@ -25,35 +25,57 @@ const formatData = (
 };
 
 const App = (): JSX.Element => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [temperatures, setTemperatures] = useState<number[]>([]);
+  const [years, setYears] = useState<number[]>([]);
+  const [months, setMonths] = useState<number[]>([]);
+  const [days, setDays] = useState<number[]>([]);
+  const [hours, setHours] = useState<number[]>([]);
+  const [minutes, setMinutes] = useState<number[]>([]);
+
   useEffect(() => {
-    const fetchData = async () => {
+    console.log("loading = ", loading);
+  }, [loading]);
+
+  useEffect(() => {
+    const initializeDataFetcher = async () => {
       try {
-        const temperatures = await getLastTemperatures();
-        const years = await getLastYears();
-        const months = await getLastMonths();
-        const days = await getLastDays();
-        const hours = await getLastHours();
-        const minutes = await getLastMinutes();
-
-        const formattedData = formatData(
-          temperatures,
-          years,
-          months,
-          days,
-          hours,
-          minutes
-        );
-
-        console.log("[date, temperature] = ", formattedData);
-
-        return formattedData;
+        setLoading(true);
+        await getLastTemperatures(setTemperatures);
+        await getLastYears(setYears);
+        await getLastMonths(setMonths);
+        await getLastDays(setDays);
+        await getLastHours(setHours);
+        await getLastMinutes(setMinutes);
       } catch (e) {
         console.error(e);
       }
     };
 
-    fetchData();
+    initializeDataFetcher();
   }, []);
+
+  useEffect(() => {
+    if (
+      temperatures.length &&
+      years.length &&
+      months.length &&
+      days.length &&
+      hours.length &&
+      minutes.length
+    ) {
+      const formattedData = formatData(
+        temperatures,
+        years,
+        months,
+        days,
+        hours,
+        minutes
+      );
+      console.log("[date, temperature] = ", formattedData);
+      setLoading(false);
+    }
+  }, [temperatures, years, months, days, hours, minutes]);
 
   return (
     <main>
