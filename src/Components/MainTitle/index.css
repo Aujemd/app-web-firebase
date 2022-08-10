@@ -1,0 +1,11 @@
+.dashboard-main-title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .dashboard-main-title {
+    font-size: 48px;
+  }
+}

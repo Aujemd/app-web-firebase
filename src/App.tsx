@@ -1,5 +1,11 @@
+import { MainTitle } from "./Components/MainTitle";
+
 function App() {
-  return <main>hola</main>;
+  return (
+    <main>
+      <MainTitle />
+    </main>
+  );
 }
 
 export default App;
