@@ -46,3 +46,14 @@ main {
     padding: 48px 32px;
   }
 }
+
+.p-progress-spinner {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 200px !important;
+}
+
+.container-spinner {
+  display: flex;
+  justify-content: center;
+}
